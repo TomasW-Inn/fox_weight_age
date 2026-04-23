@@ -1,0 +1,4 @@
+analysis/output/      # large output files — regenerate from scripts
+*.aux *.log *.synctex.gz   # LaTeX build artifacts
+.Rhistory
+.RData
