@@ -1,4 +1,42 @@
-analysis/output/      # large output files — regenerate from scripts
-*.aux *.log *.synctex.gz   # LaTeX build artifacts
-.Rhistory
-.RData
+# ============================================================
+# JaktEffekt — track SCRIPT5/ only
+# ============================================================
+
+# Ignore everything at the project root except SCRIPT5/ and this file
+/*
+!.gitignore
+!/SCRIPT5/
+!CLAUDE.md
+
+# ---- R ----
+*.RData
+*.rds
+*.Rhistory
+.Rproj.user/
+.here
+
+# ---- Spreadsheets and binary data ----
+*.xls
+*.xlsx
+*.ods
+
+# ---- LaTeX build artifacts ----
+*.aux
+*.log
+*.synctex.gz
+*.toc
+*.nav
+*.snm
+*.out
+*.vrb
+*.fdb_latexmk
+*.fls
+*.blg
+*.bbl
+indent.log
+
+# ---- Compiled PDFs (regenerate from .tex source) ----
+*.pdf
+
+# ---- Generated figures (regenerate from R scripts) ----
+SCRIPT5/static/output/figures/
