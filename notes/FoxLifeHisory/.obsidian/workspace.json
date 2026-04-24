@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "progress.md",
+                "file": "todo.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "progress"
+              "title": "todo"
             }
           }
         ]
@@ -186,10 +186,10 @@
   "active": "839b6116a4618022",
   "lastOpenFiles": [
     "scratch.md",
+    "progress.md",
     "decisions.md",
     "Välkommen.md",
     "questions.md",
-    "todo.md",
-    "progress.md"
+    "todo.md"
   ]
 }

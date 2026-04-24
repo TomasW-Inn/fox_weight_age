@@ -31,3 +31,19 @@ source("run_v2_complete.R")
 3. **`phi`** — if large (>500), overdispersion is negligible; if modest (say 10–100), the DM extension is doing real work
 4. **`sigma_age`** — controls smoothness of the RW2 age curve
 5. **`survival_v2.pdf`** — posterior mean survival by region and sex
+  
+Ran a command, read a file
+Here's a summary of all changes going into v4:
+**R script (`run_v4_complete.R`):**
+- `Age_pool := pmin(Age, 7L)` — pools ages 7, 8, 9+ into a single "7+" class
+- `S <- 8` — down from 9
+- Column names and plot axes updated to `age0:age7`
+
+**JAGS model (`modelAgeSexArea_v4.jags`):**
+- `ey[i,8]` now combines both terminal classes: `p[i,7]*C[i,7] + p[i,8]*C[i,8]`
+- `ey[i,1]` sums over `ey[i, 2:8]` instead of `2:9`
+- `safe_theta` guard removed — no longer needed with no zero cells
+- G-statistic floor restored to `0.001`
+
+The resulting count matrix will have no zeros — the SC_M group that had 0 at age 8 now has `0 + 2 = 2` in the pooled "7+" class.
+

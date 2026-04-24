@@ -1,0 +1,176 @@
+## modelAgeSexArea_v3.jags
+##
+## Revised Bayesian age-at-harvest survival model for Red fox
+## following Skelly et al. (2023). Builds on v2 with two
+## improvements over the original modelAgeSexArea2.jags:
+##
+##  1. Region-specific population growth rates (lambda[r])
+##     rather than a single shared lambda.
+##
+##  2. Dirichlet-multinomial likelihood replacing the standard
+##     multinomial, accommodating overdispersion from pooling
+##     across years (1967-71). The concentration parameter phi
+##     is estimated from the data.
+##
+## Change from v2: the RW2 age smoother is replaced by free
+## age effects with logistic(0,1) priors, matching the original
+## model. The RW2 introduced systematic bias (over-prediction
+## at age 1, under-prediction at ages 2+) due to excessive
+## smoothing across the steep juvenile-to-adult survival drop.
+##
+## Data required (passed from R via jagsUI):
+##   y[i, 1:S]   - observed counts, group i, stage class s
+##   N[i]        - total harvest in group i
+##   S           - number of stage classes (9)
+##   G           - number of groups (8: 4 regions x 2 sexes)
+##   sex[i]      - sex indicator for group i (0=male, 1=female)
+##   area[i]     - region index for group i (1=N, 2=NC, 3=SC, 4=S)
+##   zeros[i]    - vector of zeros for zeros trick
+##   C_zeros     - constant for zeros trick (must exceed max(-dm_ll))
+
+model {
+
+  ## -------------------------------------------------------
+  ## 1. PRIORS
+  ## -------------------------------------------------------
+
+  ## Intercept
+  b_intercept ~ dlogis(0, 1)
+
+  ## Sex effect
+  b_sex ~ dlogis(0, 1)
+
+  ## Region effects (N is reference)
+  b_region[1] <- 0
+  for (r in 2:4) {
+    b_region[r] ~ dlogis(0, 1)
+  }
+
+  ## Free age effects with logistic(0,1) priors
+  ## b_age[1] fixed at 0 (absorbed into intercept)
+  ## b_age[2]..b_age[S] estimated freely
+  b_age[1] <- 0
+  for (s in 2:S) {
+    b_age[s] ~ dlogis(0, 1)
+  }
+
+  ## Region-specific population growth rates
+  lambda[1] ~ dunif(0.8153, 1.1000)   # North
+  lambda[2] ~ dunif(0.8153, 1.1000)   # North Central
+  lambda[3] ~ dunif(0.7500, 1.1500)   # South Central (wider prior)
+  lambda[4] ~ dunif(0.7500, 1.1500)   # South (wider prior)
+
+  ## Dirichlet-multinomial concentration parameter
+  ## log-normal prior; phi ~ 20 a priori, estimated from data
+  log_phi ~ dnorm(3, 0.5)
+  phi <- exp(log_phi)
+
+
+  ## -------------------------------------------------------
+  ## 2. STABLE STAGE DISTRIBUTION AND EXPECTED COUNTS
+  ## -------------------------------------------------------
+
+  for (i in 1:G) {
+
+    ## --- Stage class 1 (juveniles, first year) ---
+    logit(p[i, 1]) <- b_intercept +
+                      b_age[1] +
+                      b_sex * sex[i] +
+                      b_region[area[i]]
+    g[i, 1] <- p[i, 1]
+    z[i, 1] <- 0
+    w[i, 1] <- 1
+
+    ## --- Stage classes 2 to S-1 ---
+    for (s in 2:(S - 1)) {
+      logit(p[i, s]) <- b_intercept +
+                        b_age[s] +
+                        b_sex * sex[i] +
+                        b_region[area[i]]
+      g[i, s] <- p[i, s]
+      z[i, s] <- 0
+      w[i, s] <- g[i, s-1] / (lambda[area[i]] - z[i, s]) * w[i, s-1]
+    }
+
+    ## --- Final stage class S (oldest; can remain) ---
+    logit(p[i, S]) <- b_intercept +
+                      b_age[S] +
+                      b_sex * sex[i] +
+                      b_region[area[i]]
+    g[i, S] <- 0
+    z[i, S] <- p[i, S]
+    w[i, S] <- g[i, S-1] / (lambda[area[i]] - z[i, S]) * w[i, S-1]
+
+    ## Stable stage distribution
+    C[i, 1:S] <- w[i, 1:S] / sum(w[i, 1:S])
+
+    ## Expected proportions in each stage class
+    ey[i, 2] <- p[i, 1] * C[i, 1]
+    ey[i, 3] <- p[i, 2] * C[i, 2]
+    ey[i, 4] <- p[i, 3] * C[i, 3]
+    ey[i, 5] <- p[i, 4] * C[i, 4]
+    ey[i, 6] <- p[i, 5] * C[i, 5]
+    ey[i, 7] <- p[i, 6] * C[i, 6]
+    ey[i, 8] <- p[i, 7] * C[i, 7]
+    ey[i, 9] <- p[i, 8] * C[i, 8] + p[i, 9] * C[i, 9]
+    ## Guard ey[i,1]: lambda - sum(ey[2:9]) can go slightly negative
+    ## during sampling; clamp to a small positive value
+    ey[i, 1] <- max(lambda[area[i]] - sum(ey[i, 2:9]), 0.0001)
+
+    ## Normalised expected proportions (theta) for DM likelihood
+    ## safe_theta applies a floor of 0.0001 to prevent zero arguments
+    ## in loggam() and dgamma() for sparse older age classes
+    for (s in 1:S) {
+      theta[i, s]      <- ey[i, s] / sum(ey[i, 1:S])
+      safe_theta[i, s] <- max(theta[i, s], 0.0001)
+    }
+
+
+    ## -------------------------------------------------------
+    ## 3. DIRICHLET-MULTINOMIAL LIKELIHOOD  (zeros trick)
+    ## -------------------------------------------------------
+
+    dm_ll[i] <- loggam(phi) - loggam(N[i] + phi) +
+                sum(loggam_y_phi[i, 1:S]) -
+                sum(loggam_phi_theta[i, 1:S])
+
+    for (s in 1:S) {
+      loggam_y_phi[i, s]     <- loggam(y[i, s]  + phi * safe_theta[i, s])
+      loggam_phi_theta[i, s] <- loggam(phi * safe_theta[i, s])
+    }
+
+    zeros[i] ~ dpois(zeros_mean[i])
+    zeros_mean[i] <- C_zeros - dm_ll[i]
+
+
+    ## -------------------------------------------------------
+    ## 4. POSTERIOR PREDICTIVE CHECK
+    ## -------------------------------------------------------
+
+    for (s in 1:S) {
+      pi_raw[i, s] ~ dgamma(phi * safe_theta[i, s], 1)
+    }
+    for (s in 1:S) {
+      pi_sim[i, s] <- pi_raw[i, s] / sum(pi_raw[i, 1:S])
+    }
+    y_new[i, 1:S] ~ dmulti(pi_sim[i, 1:S], N[i])
+
+    for (s in 1:S) {
+      g_obs[i, s] <- y[i, s] *
+        log(max(y[i, s], 0.001) / max(N[i] * safe_theta[i, s], 0.001))
+      g_new[i, s] <- y_new[i, s] *
+        log(max(y_new[i, s], 0.001) / max(N[i] * safe_theta[i, s], 0.001))
+    }
+
+  } ## end group loop
+
+
+  ## -------------------------------------------------------
+  ## 5. GLOBAL POSTERIOR PREDICTIVE STATISTICS
+  ## -------------------------------------------------------
+
+  cs_obs <- 2 * sum(g_obs)
+  cs_new <- 2 * sum(g_new)
+  bp     <- step(cs_new - cs_obs)
+
+} ## end model
