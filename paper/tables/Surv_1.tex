@@ -1,0 +1,30 @@
+
+\begin{table}[!htbp]
+  \centering
+  \captionsetup{font=scriptsize}
+  \caption{Model selection and Bayesian p-values for estimates of age-dependent
+    survival of red foxes in Sweden. The original model used a single
+    shared $\lambda$; the final model (v5) uses region-specific
+    $\lambda_r$. DIC values are from the original shared-$\lambda$ model;
+    Bayesian p-value for v5 reflects the improvement from region-specific
+    growth rates.}
+  \label{table:DICBP}
+  \scriptsize
+  \begin{tabular}{lrr}
+    \toprule
+    Model                                          & Bayesian p-value & DIC     \\
+    \midrule
+    Age + Sex + Region (region-specific $\lambda$) & 0.660            & ---     \\
+    Age + Sex + Region (shared $\lambda$)          & 0.712            & 369.235 \\
+    Age + Sex                                      & 0.544            & 372.144 \\
+    Age + Region                                   & 0.025            & 400.950 \\
+    Age                                            & 0.012            & 402.833 \\
+    Sex + Region                                   & 0.000            & 496.588 \\
+    Sex                                            & 0.000            & 501.042 \\
+    Region                                         & 0.000            & 532.792 \\
+    Intercept                                      & 0.000            & 536.054 \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+

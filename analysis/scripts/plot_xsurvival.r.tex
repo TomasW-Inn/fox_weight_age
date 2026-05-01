@@ -1,0 +1,42 @@
+
+## -------------------------------------------------------
+## 10.  SURVIVAL PLOT
+## -------------------------------------------------------
+
+pdf("survival.pdf", width = 10, height = 5)
+
+par(mfrow = c(1, 2))
+cols <- c("black", "grey25", "grey50", "grey75")
+sex_names <- c("Male", "Female")
+age_x <- 0:7
+
+for (sx in 1:2) {
+
+plot(NA,
+xlim = c(0, 7), ylim = c(0.1, 1.0),
+xlab = "Age class", ylab = "Survival probability",
+main = sex_names[sx]
+)
+
+abline(h = 0.5, lty = , col = "grey81")
+
+for (r in 1:4) {
+        i <- (r - 1) * 2 + sx
+        p_mn <- out_v5$mean$p[i, ]
+        p_lo <- out_v5$q2.5$p[i, ]
+        p_hi <- out_v5$q97.5$p[i, ]
+        lines(age_x, p_mn, col = cols[r], lwd = 2)
+        points(age_x, p_mn, col = cols[r], pch = r, cex = 1.2)
+        segments(age_x, p_lo, age_x, p_hi, col = cols[r], lwd = 0.8)
+    }
+if (sx == 1) {
+        legend("topright",
+        legend = c("N", "NC", "SC", "S"),
+        col = cols, pch = 1:4, lwd = 2, cex = 0.9
+        )
+    }
+}
+
+
+dev.off()
+cat("Survival plot saved to survival.pdf\n")

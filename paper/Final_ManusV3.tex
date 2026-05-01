@@ -1,0 +1,328 @@
+\documentclass[12pt,a4paper,final,abstract=true,headings=small]{scrartcl}
+\usepackage{startup}
+\usepackage{csquotes}
+
+\addbibresource{BayesSurvFox.bib}   % ← here, in the .tex file
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \usepackage[disable,nolists, tablesfirst, heads]{endfloat}  % Format where figures and tables will go
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% ------------------------------------------------------------
+% Title, authors, affiliations
+% ------------------------------------------------------------
+\renewcommand\Authfont{\normalsize}        % author names: normal size
+\renewcommand\Affilfont{\small\itshape}    % affiliations: small italic
+
+\title{\textbf{Latitudinal effects on weight and age dependent survival
+       of Red fox \emph{Vulpes vulpes}}}
+
+\author[1$*$]{Tomas Willebrand}
+\author[1]{Morten Odden}
+\author[2]{Gustaf Samelius}
+\author[1]{Kjartat Østbye}
+\author[3]{Jan Englund}
+\author[3]{Göran Spong}
+
+\affil[1]{Inland Norway University of Applied Sciences, Evenstad, Norway}
+\affil[2]{Swedish University of Agricultural Sciences, Grimsö Wildlife
+          Research Station, Sweden}
+\affil[3]{Swedish University of Agricultural Sciences, Uppsala, Sweden}
+\affil[$*$]{\normalfont Corresponding author:
+            \href{mailto:tomas.willebrand@inn.no}{tomas.willebrand@inn.no}}
+\date{\today}
+
+% ------------------------------------------------------------
+
+\begin{document}
+
+\maketitle
+
+\newpage
+
+\begin{abstract}
+  Age-dependent survival is central to understanding population dynamics and life-history evolution. We analysed carcass weight and age-at-harvest data from 6\,022 Red foxes (\emph{Vulpes vulpes}) collected across Sweden between 1967 and 1971 to evaluate latitudinal effects on body mass and age-dependent survival. Carcass weights decreased from south to north in both adults and sub-adults, contrary to Bergmann's rule, with southern foxes weighing approximately 1.27 times more than northern foxes. The latitudinal weight gradient exceeded the sex difference in both age classes, and no sex $\times$ region interaction was detected. Using a Bayesian age-at-harvest model with region-specific population growth rates ($\lambda$), we estimated age-dependent survival probabilities for four latitudinal regions and both sexes. Survival was lower in the two southern regions than in the northern regions, showing an opposite pattern to body weight. Regional population growth rates were consistent with slight decline in the north ($\lambda =$ 0.946, P($\lambda > 1$) = 0.29) and near-stability in the south-central region ($\lambda =$ 1.017, P($\lambda > 1$) = 0.62), corroborated by independent harvest bag statistics. We discuss these patterns in terms of latitudinal productivity gradients, prey availability, and life-history trade-offs in a widely distributed carnivore.
+
+  \medskip
+
+  \noindent\textbf{Keywords:} Red fox, \emph{Vulpes vulpes}, age-dependent survival, body mass, latitudinal gradient, Bayesian inference, life-history
+\end{abstract}
+
+\newpage
+
+\section*{Introduction}
+
+Body size is a factor that affect population dynamics and life-history evolution \citep{stearnsLifeHistoryEvolution2000,lande2003stochastic,stearnsLifeHistoryEvolution2000}, and is a key trait that varies both within and between species \citep{blanckenhornEvolutionBodySize2000}. Several mammal species show consistent differences in body size in different parts of their distribution.
+
+
+
+
+A latitudinal gradient in body size, with larger individuals at higher latitudes, a pattern known as Bergmann's rule \citep{blanckenhornEvolutionBodySize2000}. However, the underlying mechanisms driving this pattern are still debated, and several alternative hypotheses have been proposed \citep{mcnabEcologicalSignificanceBergmanns1971,blackburnGeographicGradientsBody1999a,frafjord1998red}.
+
+
+Age dependent survival is central to understand population dynamics and life-history evolution \citep{stearnsLifeHistoryEvolution2000,lande2003stochastic,stearnsLifeHistoryEvolution2000}. Patterns of age dependent survival are species specific  \citep{martinPatternsMechanismsAgeDependent1995,loisonAGESPECIFICSURVIVALFIVE}, and determine resource allocation strategies as body size and morphology \citep{roffPredictingBodySize1986,siblyEffectsBodySize2007,brooksHowWellCan2016}. Life-history traits show positive covariation that results in a slow-fast continuum of population dynamics \citep{oliFastSlowContinuum2004}, and is closely correlated to generation time \citep{krausLivingSlowDying2005}. Slow species are long-lived with low-reproductive rate, whereas fast species are short lived that allocate resources to early maturation and high fertility. The effect of stochastic processes is higher at the fast end of the continuum \citep{saetherHowLifeHistory2013}. Resource allocation strategies determine body size and affect central traits  in life-history evolution as reproduction and survival \citep{roffPredictingBodySize1986,siblyEffectsBodySize2007,brooksHowWellCan2016}.
+
+Species with a wide geographical distribution are exposed to a broad range of  and climate conditions, which potentially could result in different optimal values of life history-traits. For example, Bergmann's rule states that there is a positive correlation of weight of a species with latitude inhabited \citep{blanckenhornEvolutionBodySize2000}. However, as long as the different sub-populations are connected, evolution should favor adaptive phenotypic plasticity \citep{mcnamaraStatedependentLifeHistories1996,kaweckiEvolutionLifeHistories1993}. The Red fox \emph{Vulpes vulpes} is a highly adaptive species, and one of the most widely distributed carnivores. It can utilize a wide range prey from voles to roe deer \citep{englund1970some,kjellanderCyclicVolesPrey2003}, and also feed on vegetables and human waste \citep{carvalho2001food,}. It benefits from human settlements and agricultural activities \citep{jahrenImpactHumanLand2020,gallantDisentanglingRelativeInfluences2020,vuorisaloUrbanRedFoxes2014}, but is limited by deep snow and harsh winters at northern latitudes \citep{bartonWinterSeverityLimits2007,frafjord1998red}. Demographic data and other life-history characteristics place the Red fox on the fast side of the fast-slow continuum \citep{heppellLifeHistoriesElasticity2000}. Females start to reproduce at an age about 10 months \citep{englund1970some}, and survival estimates are low both for adults and subadults \citep{devenish-nelsonDemographyCarnivoreRed2013, willebrandDecliningSurvivalRates2022}. Despite extensive mortality during the first outbreaks of sarcoptic mange, red fox populations appeared to recover within decades after the outbreak\citep{soulsbury2007impact,willebrandDecliningSurvivalRates2022}. \citet{devenish-nelsonDemographyCarnivoreRed2013} compared demographic data of eight different fox populations in Australia, UK, Sweden and USA, and concluded that the population dynamics ranged medium to fast life history strategies.
+
+Red fox is distributed throughout all of Sweden's 450,295 km\textsuperscript{2}, which stretches from  from 55.38$^{\circ}$ to 67.86$^{\circ}$ latitude.  The northern parts are sparsely populated and have a subarctic climate, and the area north of the polar circle (66.34$^{\circ}$) is characterized as arctic tundra. The southern parts, on the other hand, have an animal  diversity and human densities similar to southern European countrie, and winters only have shorter periods of snow and sub-zero temperatures. The aim with this study was to evaluate the effects of a latitudinal gradient on age related body size of males and females and age-dependent survival patterns of ered foxes in Sweden. We analyze age, sex, and weight from 6 022 harvested red foxes between 1967 and 1971, and expect body size and age dependent survival to increase with latitude.
+
+\section*{Methods}
+
+\subsection*{Collecting harvested foxes}
+
+The data used in this analysis is part of a monitoring program that was initiated by the late professor Englund to investigate age, reproduction and morphological characteristics of the Red fox. In this study, we used 6 022 harvested foxes that were collected from hunters between 1967 and 1971 when efforts were made to retrieve foxes from all parts of Sweden. Carcass weight was recorded to the nearest hectogram, and age was determined by microscopic examination of cementum layers of the canine teeth.  See \citep{englund1965studies} and \citep{englund1970some} for additional details.
+
+\subsubsection*{Latitudinal regions}
+
+We grouped the collected foxes in four latitudinal regions similar to \cite{englund1970some}.  See \citep{zhengEstimatingNetPrimary2004, GeographySweden2025,MarkanvandningenSverigeLand2013} for more details. Sweden covers a wide range of climatic zones, and stretches more than 1 500 km from south to north.
+
+\begin{description}
+  \item [N:] \emph{1461 males and 1128 females.} The northernmost part of Sweden that stretches mostly north of 62$^{\circ}$ latitude to north of the polar circle. The region is characterized by low productivity and a net primary production (NPP) below 300. The region is dominated by boreal forests (68\%) and open tundra (27\%), and experienced long-winters and deep snow cover during the study. Microtines, hares and grouse are common prey species for red foxes. Human waste, slaughter remains and carcasses from domestic reindeer \emph{Rangifer tarandus} and moose \emph{Alces alces} are occasionally available in autumn and winter. The region has less than 6 inhabitants per km\textsuperscript{2}.
+
+  \item [NC:] \emph{553 males and 437 females.} North-Central Sweden, between 60$^{\circ}$ and 62$^{\circ}$latitudes, is dominated by boreal conifer forest (84\%) interspersed with agricultural (4\%) areas. The northwest parts contain open tundra (7\%). Winters vary, and snow cover usually stayed from November until March during the study. Microtines, hares and grouse but also roe deer are among important prey species. Human waste, slaughter remains and carcasses from domestic reindeer and moose are occasionally available in autumn and winter. Human settlements are more common than in NC, and the region has about 12 inhabitants per km\textsuperscript{2}.
+
+  \item [SC:] \emph{929 males and 809 females.} South-Central Sweden, between 58$^{\circ}$ and 60$^{\circ}$latitudes is characterized by forests (63\%) and agriculture (22\%) areas. Broad leaf tree species are common in forests. Winters are short with low amounts of snow. Prey species are more diverse than in NC but microtines are still important. Human waste and slaughter remains from ungulate species are available in autumn and winter. The region contains most of the Swedish human population with close to 100 inhabitants per km\textsuperscript{2}, and 6\% is classified as urban areas.
+
+  \item [S:] \emph{374 males and 289 females.} Southern part of Sweden, which is below 58$^{\circ}$ latitude. The region contains forest (65\%) and agriculture (19\%) areas, and forests contain  several different broad leave species in addition to conifers. It is dominated by short winters and a climate similar to central Europe. Prey is abundant, including rabbits \emph{Oryctolagus cuniculus} that are not present in regions further north \citep{erlingeCanVertebratePredators1984}. Human waste and slaughter remains are available occasionally in autumn and winter. Inhabitants are close to 100 per km\textsuperscript{2} and 7\% is classified as urban areas.
+
+\end{description}
+
+\subsection*{Analysis}
+
+We evaluated the effect of area, sex and age on carcass weight using generalized linear models with a Gamma distribution and log link, which was preferred over a Gaussian model based on AIC and residual diagnostics. The Gamma distribution naturally accommodates the increase in variance with predicted weight that is characteristic of body mass data. We separately analyzed adults (age $\geq$ 1 year) and sub-adults (age 0). For adults, age was included as a continuous covariate to account for continued weight gain beyond the first year. Sub-adults represent a single first-year age class where growth is substantially higher compared to adults, so age was not included in the sub-adult model. Area and sex were treated as categorical variables. We tested for a sex $\times$ region interaction in both models by comparing additive and interaction models using AIC. We used residual diagnostics to validate models with the package DHARMa \citep{hartigDHARMaResidualDiagnostics2022}.
+
+Age-at-harvest data are usually updated for many wildlife species and can be used to supplement survival estimates from mark-recapture and known-fate studies. Life-table analysis based on age at harvest data is an indirect method to estimate survival, and its use is restricted by assumptions as of a stable age structure, constant survival, and a population at equilibrium ($\lambda = 1$). These assumptions have been evaluated and to different degrees relaxed \citep{udevitzEstimatingSurvivalRates1998}. and a recent study by \citet{skellyFlexibleBayesianApproach} proposed a Bayesian approach to estimate survival probability from age-at-harvest data when auxiliary data to validate assumptions are not available. The model include flexible definitions of the likelihood and can account for uncertainty in age structure, population growth rate, and harvest selectivity by assigning prior distributions. In addition,  survival probability may vary as a function of environmental variables.
+
+Here we have used the outlined Bayesian model proposed by \citet{skellyFlexibleBayesianApproach}. Our data contained age classes from first year sub-adults (age-class 1) to 12 years of age. We pooled all ages above 8 years to age class 9, and tabulated data by age, sex and region. We did not include any parameter on the relative selectivity to be harvested. Harvest statistics on red fox was used to estimate indices of population change, and used the first and second quartile (\emph{dunif(0.8153, 1.1000)}) as the prior for $\lambda$ in the model. We developed 8 models  with different combinations of sex, age and area affecting survival probabilities (table \ref{table:DICBP} lists the different models). Model fit was evaluated with posterior predictive checks \citep{kery2010introduction}, and used deviance information criterion (\emph{DIC}) for model selection. All models were developed in a Bayesian framework using the JAGS-language \citep{plummer2003jags} (see appendix). All data preparation and analysis were made in R \citep{rcoreteamLanguageEnvironmentStatistical2024}.
+
+\section*{Results}
+
+
+\subsection*{Weight decrease with latitudes}
+
+Carcass weights of red foxes decreased consistently from the southernmost to the northernmost region in both adults and sub-adults, and for both sexes (Figure~\ref{ref:Adfig}, Tables~\ref{ref:Adweight}~\&~\ref{ref:Juvweight}). Gamma models with a log link were strongly preferred over Gaussian models in both age classes ($\Delta$AIC $>$ 32 for sub-adults, $>$ 113 for adults), and residual diagnostics confirmed that heteroscedasticity was resolved under the Gamma distribution (Levene test non-significant for both models). A sex $\times$ region interaction was not supported in either age class ($\Delta$AIC $=$ $-$1.1 for adults; 0.16 for sub-adults), indicating that the sex difference in weight was consistent across all four regions.
+
+In adults, foxes in the South were on average 1.27 times heavier than foxes in the North (exp(0.239) $=$ 1.27; Table~\ref{ref:Adweight}), and males were on average 1.21 times heavier than females (exp(0.190) $=$ 1.21). The intermediate regions followed a clear latitudinal gradient, with North Central and South Central significantly heavier than the North reference. Adults also increased in weight with age, gaining approximately 1.1\% per year (exp(0.011) $=$ 1.011), a small but significant effect relative to the regional and sex differences.
+
+In sub-adults, the latitudinal gradient was equally pronounced: foxes in the South were 1.28 times heavier than those in the North (exp(0.243) $=$ 1.28; Table~\ref{ref:Juvweight}), and males were 1.19 times heavier than females (exp(0.174) $=$ 1.19). The latitudinal effect on weight therefore exceeded the sex difference in both age classes, and the pattern was fully consistent across males and females.
+
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[scale=0.45]{AGEComp_WeightAreaSex.pdf}
+  \captionsetup{font=scriptsize}
+  \caption{Distribution of carcass weights of foxes aged 1-4 years in a latitudinal gradient of four regions in Sweden.}
+  \label{ref:Adfig}
+\end{figure}
+
+\input{tables/Weight_1.tex}
+
+\input{tables/Weight_2.tex}
+
+\subsection*{Age-dependent survival and regional differences}
+
+The model including age, sex and region as covariates had the lowest DIC and was selected as the final model (Table~\ref{table:DICBP}). We extended the original model by estimating region-specific population growth rates ($\lambda_r$) rather than a single shared $\lambda$, which improved the Bayesian p-value from 0.712 to 0.660, moving closer to the ideal value of 0.5. Parameter estimates for the final model are presented in Table~\ref{table:param} and estimated age-dependent survival probabilities are shown separately for males and females in Figure~\ref{ref:agesurv}.
+
+Survival was substantially lower for sub-adults (age class 0) than for adults across all regions and both sexes. Among adults, survival increased from age 1 to a peak around ages 3--6, then declined at older ages, producing a hump-shaped survival curve (Figure~\ref{ref:agesurv}). The alternating pattern of estimates across adjacent age classes is a known mathematical property of the stable-stage back-calculation and does not reflect a biological signal \citep{skellyFlexibleBayesianApproach}. Females had consistently higher survival than males across all regions and ages (logistic-scale coefficient: 0.187, 95\% CrI: 0.119--0.259; Table~\ref{table:param}).
+
+Regional differences in survival were uncertain, with all region coefficients having 95\% credible intervals spanning zero (Table~\ref{table:param}). The pattern suggested slightly higher survival in the two central regions (NC and SC) relative to both the North and South, though this contrast was not credible. There was no simple latitudinal gradient in survival corresponding to the gradient observed in body weight.
+
+\subsection*{Regional population growth rates}
+
+Region-specific population growth rates are presented in Table~\ref{table:lambda}. All four regions had wide credible intervals spanning $\lambda = 1.0$, indicating that the data do not provide strong evidence of systematic population growth or decline in any region during 1967--1971. However, the estimates suggest a latitudinal gradient, with the North showing the lowest mean growth rate ($\lambda = 0.946$, P($\lambda > 1$) = 0.28) and South Central the highest ($\lambda = 1.017$, P($\lambda > 1$) = 0.62). South Central had the highest probability of being the fastest-growing region (P = 0.48). No pairwise contrast between regions was credible, as all 95\% credible intervals for differences included zero.
+
+These patterns were corroborated by independent regional harvest bag statistics for the same period. Harvest records showed a declining trend in the North (areas 1--2) and relative stability or slight increase in the central and southern regions (areas 3--5), consistent with the model's lower $\lambda$ estimate for N and higher estimate for SC.
+
+\subsection*{Age distribution}
+
+The relative age distributions in the different regions for each sex are presented in Figure~\ref{ref:agedist}. The distributions show the expected pattern of steeply declining proportions with increasing age class, with sub-adults (age 1) comprising approximately 54\% of the harvest across all regions. The age distributions were broadly similar across regions and sexes, consistent with the modest and uncertain regional differences in survival estimated by the model.
+
+\input{tables/Surv_1.tex}
+
+\input{tables/Surv_2.tex}
+
+\input{tables/Surv_3.tex}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[scale=0.65]{survival.pdf}
+  \captionsetup{font=scriptsize}
+  \caption{Estimated age dependent survival of male and female red foxes in four different areas along a latitudinal gradient in Sweden. Note that a small deviation has been added to age to improve the readability of different regions.}
+  \label{ref:agesurv}
+\end{figure}
+
+
+
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[scale=0.35]{Age_Dist.pdf}
+  \captionsetup{font=scriptsize}
+  \caption{The relative age distribution of male and female red fox in four different regions of the data. The age distribution of first age was define as 1.}
+  \label{ref:agedist}
+\end{figure}
+
+\section*{Discussion}
+
+The regional lambda estimates from the age-at-harvest model are independently corroborated by the harvest bag statistics. The northern decline and southern growth gradient visible in the harvest data is consistent with the latitudinal productivity gradient, with northern regions showing lower prey availability, harsher winters, and lower fox population growth rates during this period.
+
+% Our results show that red foxes of both sex and all ages decrease in weight with increased latitude. This is contrary to Bergmann's rule, which propose that variation in body size can be explained by the need to conserve heat in colder climates. Several authors have criticized Bergmann's rule for being to simplistic, and have proposed other mechanisms that would explain body size variation within and between species along climate gradients\citep{mcnabEcologicalSignificanceBergmanns1971,blackburnGeographicGradientsBody1999a,frafjord1998red}. The availability of nutrients during growth is important for development of body size \citep{geistBergmannsRuleInvalid1987}, and density dependent affect body size in high density deer populations \citep{albonEarlyDevelopmentPopulation1987,festa-bianchetEarlyDevelopmentAdult2000,gaillardCohortEffectsDeer2003}. \citet{cavalliniVariationBodySize1995} reported that red fox males, but not females, were heavier in the northern than in the southern part of a study area in Italy, and emphasized the importance of density dependence for variation in body size. However, in a study on size variation of female brown bears, density-independent fluctuations in the environment contributed to the variation in body size in addition to density-dependent factors \citep{zedrosserPOPULATIONDENSITYFOOD2006}. On a larger regional scale, differences in productivity and climate explained the variation in body size of moose \citep{hjeljordRangebodyMassInteractions1999} We propose that the decline in weight with latitude is explained by a decreasing productivity and a harsher winter climate, rather than a density dependent competition for food.
+
+% body size and the usual weight of their prey (Rosenzweig 1966; Schoener 1969a; Kruuk 1972,
+% 1975; Schaller 1972; Kleiman and Eisenberg 1973). \citep{gittlemanCarnivoreBodySize1985}.
+
+
+
+% SURVIVAL, age distribution sex ratio,
+
+% The estimates of age-dependent survival are similar to earlier studies
+
+% Survival values
+% Survival and latitude. Density and reproduction.
+
+% South  Higher density and dispersal northwest. Density dependent mortality.
+
+
+% Assumptions: Pre mange population high and stable.
+
+% Variation in recruitment. Reproduction and dispersal. Population dynamics of large herbivores: variable recruitment with constant adult survival Gaillard
+
+% Age structure \citep{yonedaEffectsHuntingAge1982}
+
+% Immigration to N and NC from SC and S would bias the age dependent survial high. SMall foxes are pushed north?
+
+\newpage
+\singlespacing
+\printbibliography
+
+\newpage
+
+\section*{Appendix}
+
+\subsection*{Jags models}
+
+\emph{Model use to estimate age-dependent survival:} \label{app:brood}
+
+\begin{lstlisting}[language=JAGS]
+## modelAgeSexArea_v5.jags
+##
+## Bayesian age-at-harvest survival model for Red fox
+## following Skelly et al. (2023).
+##
+## Improvements over original modelAgeSexArea2.jags:
+##   1. Region-specific lambda[r] instead of single shared lambda
+##   2. Area coded as index 1:4 instead of dummy variables
+##
+## Data required:
+##   y[i, 1:S]  - observed counts, group i, stage class s
+##   N[i]       - total harvest in group i  (rowSums of y)
+##   S          - number of stage classes (8: age 0..6 + "7+")
+##   G          - number of groups (8: 4 regions x 2 sexes)
+##   sex[i]     - 0=male, 1=female
+##   area[i]    - region index 1:4 (N, NC, SC, S)
+
+model {
+
+  ## -------------------------------------------------------
+  ## 1. PRIORS
+  ## -------------------------------------------------------
+
+  b_intercept ~ dlogis(0, 1)
+  b_sex       ~ dlogis(0, 1)
+
+  b_region[1] <- 0
+  for (r in 2:4) {
+    b_region[r] ~ dlogis(0, 1)
+  }
+
+  ## Free age effects, logistic(0,1) as in original
+  b_age[1] <- 0
+## With:
+tau_b ~ dgamma(2, 0.5)          # shared precision ~ encourages shrinkage
+for (s in 2:S) {
+  b_age[s] ~ dnorm(0, tau_b)    # partial pooling across age effects
+}
+  ## Region-specific population growth rates
+  lambda[1] ~ dunif(0.8153, 1.1000)   # N
+  lambda[2] ~ dunif(0.8153, 1.1000)   # NC
+  lambda[3] ~ dunif(0.7500, 1.1500)   # SC
+  lambda[4] ~ dunif(0.7500, 1.1500)   # S
+
+
+  ## -------------------------------------------------------
+  ## 2. STABLE STAGE DISTRIBUTION AND EXPECTED COUNTS
+  ## -------------------------------------------------------
+
+  for (i in 1:G) {
+
+    ## Stage class 1
+    logit(p[i, 1]) <- b_intercept + b_age[1] +
+                      b_sex * sex[i] + b_region[area[i]]
+    g[i, 1] <- p[i, 1]
+    z[i, 1] <- 0
+    w[i, 1] <- 1
+
+    ## Stage classes 2 to S-1
+    for (s in 2:(S - 1)) {
+      logit(p[i, s]) <- b_intercept + b_age[s] +
+                        b_sex * sex[i] + b_region[area[i]]
+      g[i, s] <- p[i, s]
+      z[i, s] <- 0
+      w[i, s] <- g[i, s-1] / (lambda[area[i]] - z[i, s]) * w[i, s-1]
+    }
+
+    ## Final stage class S ("7+", individuals can remain)
+    logit(p[i, S]) <- b_intercept + b_age[S] +
+                      b_sex * sex[i] + b_region[area[i]]
+    g[i, S] <- 0
+    z[i, S] <- p[i, S]
+    w[i, S] <- g[i, S-1] / (lambda[area[i]] - z[i, S]) * w[i, S-1]
+
+    ## Stable stage distribution
+    C[i, 1:S] <- w[i, 1:S] / sum(w[i, 1:S])
+
+    ## Expected proportions
+    ey[i, 2] <- p[i, 1] * C[i, 1]
+    ey[i, 3] <- p[i, 2] * C[i, 2]
+    ey[i, 4] <- p[i, 3] * C[i, 3]
+    ey[i, 5] <- p[i, 4] * C[i, 4]
+    ey[i, 6] <- p[i, 5] * C[i, 5]
+    ey[i, 7] <- p[i, 6] * C[i, 6]
+    ey[i, 8] <- p[i, 7] * C[i, 7] + p[i, 8] * C[i, 8]
+    ey[i, 1] <- lambda[area[i]] - sum(ey[i, 2:8])
+
+    ## -------------------------------------------------------
+    ## 3. MULTINOMIAL LIKELIHOOD
+    ## -------------------------------------------------------
+
+    y[i, 1:S] ~ dmulti(ey[i, 1:S], N[i])
+
+    ## -------------------------------------------------------
+    ## 4. POSTERIOR PREDICTIVE CHECK
+    ## -------------------------------------------------------
+
+    y_new[i, 1:S] ~ dmulti(ey[i, 1:S], N[i])
+
+    for (s in 1:S) {
+      g_obs[i, s] <- y[i, s] *
+        log(max(y[i, s], 0.001) / max(N[i] * ey[i, s] / sum(ey[i, 1:S]), 0.001))
+      g_new[i, s] <- y_new[i, s] *
+        log(max(y_new[i, s], 0.001) / max(N[i] * ey[i, s] / sum(ey[i, 1:S]), 0.001))
+    }
+
+  } ## end group loop
+
+
+  ## -------------------------------------------------------
+  ## 5. GLOBAL POSTERIOR PREDICTIVE STATISTICS
+  ## -------------------------------------------------------
+
+  cs_obs <- 2 * sum(g_obs)
+  cs_new <- 2 * sum(g_new)
+  bp     <- step(cs_new - cs_obs)
+
+} ## end model
+
+\end{lstlisting}
+
+\end{document}

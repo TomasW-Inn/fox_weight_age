@@ -1,0 +1,36 @@
+
+\begin{table}[!htbp]
+  \centering
+  \captionsetup{font=scriptsize}
+  \caption{Posterior means and 95\% credible intervals for the final
+    age-dependent survival model (v5) with region-specific population
+    growth rates. Parameters are on the logistic scale; age~1 and
+    region~N are reference categories fixed at zero. Age classes 7 and
+    above are pooled into a single terminal class (7+). See appendix
+    for full model specification.}
+  \label{table:param}
+  \scriptsize
+  \begin{tabular}{lrrr}
+    \toprule
+    Parameter    & Mean     & Lower 2.5\% & Upper 97.5\% \\
+    \midrule
+    Intercept    & $-$0.697 & $-$0.959    & $-$0.411     \\
+    \midrule
+    Age 1        & 0.000    & 0.000       & 0.000        \\
+    Age 2        & 0.830    & 0.548       & 1.141        \\
+    Age 3        & 0.662    & 0.388       & 0.962        \\
+    Age 4        & 1.027    & 0.636       & 1.496        \\
+    Age 5        & 0.708    & 0.300       & 1.190        \\
+    Age 6        & 0.917    & 0.357       & 1.636        \\
+    Age 7        & 0.492    & $-$0.654    & 1.750        \\
+    Age 7+       & 0.334    & $-$1.085    & 1.556        \\
+    \midrule
+    Region NC    & 0.147    & $-$0.295    & 0.565        \\
+    Region SC    & 0.102    & $-$0.396    & 0.528        \\
+    Region S     & $-$0.052 & $-$0.569    & 0.466        \\
+    \midrule
+    Sex (female) & 0.187    & 0.119       & 0.259        \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+

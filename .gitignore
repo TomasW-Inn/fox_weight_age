@@ -3,9 +3,8 @@
 # ============================================================
 
 # Ignore everything at the project root except SCRIPT5/ and this file
-/*
+
 !.gitignore
-!/SCRIPT5/
 !CLAUDE.md
 
 # ---- R ----
