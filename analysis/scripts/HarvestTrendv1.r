@@ -21,7 +21,7 @@ a4 <- c("AB", "C", "D", "T")
 a5 <- c("M", "K", "N", "O", "F", "E", "N", "G", "H")
 
 df_jakt[, AREA := 0L]
-df_jakt[Lan %in% a1, AREA := 1L]
+df_jakt[Lan %in% a1, AREA := 2L]
 df_jakt[Lan %in% a2, AREA := 2L]
 df_jakt[Lan %in% a3, AREA := 3L]
 df_jakt[Lan %in% a4, AREA := 4L]
@@ -44,22 +44,23 @@ p <- ggplot(Sum_jakt, aes(x = Year, y = Numbers, color = factor(AREA), group = A
     color = "Area"
   ) +
   theme_bw()
+
 p
 ggsave(here(out, "FoxBagByArea.pdf"))
 
-Sum_Fox <- df_jakt2[, .(Numbers = sum(Antal)), by = .(Årtal)]
-Sum_Fox <- Sum_Fox[Årtal < 1976]
-summary(Sum_Fox)
-plot(Numbers ~ Årtal, data = Sum_Fox)
+tmp <- Sum_jakt %>% filter(AREA == 3)
+a <- lm(log(Numbers) ~ Year, data = tmp)
+exp(coef(a)[2])
 
 Lambda <- numeric()
 x <- 0
 for (i in lan) {
+  print(lan)
   x <- x + 1
-  tmp <- df_jakt2[Län == i]
+  tmp <- df_jakt[Lan == i]
   Lambda <- append(Lambda, as.numeric(unlist(tmp[2:6, 4] / tmp[1:5, 4])))
 }
-
+head(Lambda)
 summary(Lambda)
 # Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
 # 0.5087  0.8153  0.9900  0.9561  1.1000  1.5714

@@ -8,7 +8,7 @@ data <- "data/raw"
 jags <- "analysis/models"
 out <- "analysis/output"
 
-fit8 <- readRDS(here(out, "out_v5.rds"))
+fit8 <- readRDS(here(out, "out_v6.rds"))
 
 
 
@@ -50,7 +50,7 @@ rownames(distF) <- c("North", "North Centr", "South Centr", "South")
 distF
 
 
-pdf(here(out, "Age_Dist.pdf"), width = 18, height = 9)
+pdf(here(out, "Age_DistV6.pdf"), width = 18, height = 9)
 
 par(mfrow = c(1, 2))
 
@@ -63,7 +63,7 @@ barplot(distM,
   ylab = "Age distribution",
   font.lab = 1,
   col = c("black", "darkgray", "lightgray", "white"),
-    names.arg=c("1", "2", "3", "4", "5", "6", "7", "7+")
+  names.arg = c("1", "2", "3", "4", "5", "6", "7", "7+")
 )
 text(22, 0.95, "a) males")
 # legend("topright",fill=c("black","darkgray", "lightgray", "white"),title="AREA", c("North", "North Central", "South Central","South"), bty="n" )
@@ -78,7 +78,7 @@ barplot(distF,
   # ylab="Age distribution",
   font.lab = 1,
   col = c("black", "darkgray", "lightgray", "white"),
-  names.arg=c("1", "2", "3", "4", "5", "6", "7", "7+")
+  names.arg = c("1", "2", "3", "4", "5", "6", "7", "7+")
 )
 text(22, 0.95, "b) females")
 # legend(1,0.9,fill=c("black","darkgray", "lightgray", "white"),title="Region", c("North", "North Central", "South Central","South"), bty="n" )

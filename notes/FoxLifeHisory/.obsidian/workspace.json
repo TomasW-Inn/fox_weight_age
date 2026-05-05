@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "progress.md",
+                "file": "todo.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "progress"
+              "title": "todo"
             }
           },
           {
@@ -27,16 +27,15 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Manus Notes.md",
+                "file": "scratch.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Manus Notes"
+              "title": "scratch"
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "vertical"
@@ -198,14 +197,14 @@
       "bases:Skapa ny bas": false
     }
   },
-  "active": "ecd7695c7a1f7eea",
+  "active": "839b6116a4618022",
   "lastOpenFiles": [
-    "progress.md",
-    "Manus Notes.md",
     "scratch.md",
     "todo.md",
+    "progress.md",
+    "questions.md",
+    "Manus Notes.md",
     "decisions.md",
-    "Välkommen.md",
-    "questions.md"
+    "Välkommen.md"
   ]
 }

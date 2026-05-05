@@ -2,7 +2,7 @@
 ## LAMBDA: POSTERIOR COMPARISON ACROSS REGIONS
 ## -------------------------------------------------------
 
-lambda_sims <- out_v5$sims.list$lambda
+lambda_sims <- out_v6$sims.list$lambda
 colnames(lambda_sims) <- c("N", "NC", "SC", "S")
 
 ## --- 1. Full posterior summaries ---

@@ -41,13 +41,13 @@
   >
 ]>
 <requests version="1.0">
-  <internal package="biblatex" priority="9" active="1">
+  <internal package="biblatex" priority="9" active="0">
     <generic>latex</generic>
     <provides type="dynamic">
-      <file>Final_ManusV3.bcf</file>
+      <file>Final_ManusV4.bcf</file>
     </provides>
     <requires type="dynamic">
-      <file>Final_ManusV3.bbl</file>
+      <file>Final_ManusV4.bbl</file>
     </requires>
     <requires type="static">
       <file>blx-dm.def</file>
@@ -65,19 +65,19 @@
     <generic>biber</generic>
     <cmdline>
       <binary>biber</binary>
-      <infile>Final_ManusV3</infile>
+      <infile>Final_ManusV4</infile>
     </cmdline>
     <input>
-      <file>Final_ManusV3.bcf</file>
+      <file>Final_ManusV4.bcf</file>
     </input>
     <output>
-      <file>Final_ManusV3.bbl</file>
+      <file>Final_ManusV4.bbl</file>
     </output>
     <provides type="dynamic">
-      <file>Final_ManusV3.bbl</file>
+      <file>Final_ManusV4.bbl</file>
     </provides>
     <requires type="dynamic">
-      <file>Final_ManusV3.bcf</file>
+      <file>Final_ManusV4.bcf</file>
     </requires>
     <requires type="editable">
       <file>BayesSurvFox.bib</file>

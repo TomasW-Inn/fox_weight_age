@@ -1,3 +1,16 @@
+V6 Bayesian p-value: 0.657
+  Region  Mean Lower Upper
+1      N 0.936 0.764 1.122
+2     NC 0.988 0.780 1.142
+3     SC 1.023 0.798 1.145
+4      S 0.958 0.763 1.140
+
+
+DIC info: (pD = var(deviance)/2) 
+pD = 12.1 and DIC = 345.082 
+DIC is an estimate of expected predictive error (lower is better).
+
+
 
 **What the model currently does well** — it follows Skelly et al. closely, uses the stable stage distribution correctly, handles the last stage class as a "stayer" pool, and the G-statistic posterior predictive check is appropriate.
 
