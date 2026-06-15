@@ -9,10 +9,16 @@
 % --------------------------------------------------------------------
 % FONTS & TYPOGRAPHY
 % --------------------------------------------------------------------
-\usepackage[T1]{fontenc}
-\usepackage[utf8]{inputenc}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{lmodern}                % Nice, clean Latin Modern fonts
+\else                                 % XeLaTeX / LuaLaTeX: native Unicode
+  \usepackage{fontspec}
+  \setmainfont{Latin Modern Roman}    % OpenType LM: has em/en-dashes, quotes, ń, etc.
+\fi
 \usepackage{microtype}                % Better kerning & spacing
-\usepackage{lmodern}                  % Nice, clean Latin Modern fonts
 
 % Optional: Switch to a more "natural science" font
 % \usepackage{mathpazo}   % Palatino
